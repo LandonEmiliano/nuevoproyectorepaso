@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 
-class ProductCcontroller extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class ProductCcontroller extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
