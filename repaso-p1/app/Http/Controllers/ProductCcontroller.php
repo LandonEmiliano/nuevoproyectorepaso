@@ -64,4 +64,8 @@ class ProductCcontroller extends Controller
     {
         //
     }
+    public function showLoginForm()
+    {
+        return view('products.login');
+    }
 }
