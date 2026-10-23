@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        
+        return view('products.create');
     }
 
     /**
@@ -30,7 +30,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'descripcion' => 'required|nullable|string',
+            'precio' => 'required|numeric|min:0',
+        ]);
+
+        //$product = Product::create($request->all());
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->descripcion = $request->input('descripcion');
+        $product->precio = $request->input('precio');
+        $product->save();   
+
+        return redirect()->route ('products.index',)
+            ->with('success', 'Product created successfully.');
     }
 
     /**
@@ -38,15 +52,17 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -54,7 +70,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'descripcion' => 'required',
+            'precio' => 'required|numeric',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+
+        return redirect()->to(route('products.index', [], false))
+            ->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -62,7 +88,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->to(route('products.index', [], false))
+            ->with('success', 'Product deleted successfully.');
     }
     public function showLoginForm()
     {
