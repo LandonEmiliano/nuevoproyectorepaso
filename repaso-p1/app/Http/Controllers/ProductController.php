@@ -43,7 +43,7 @@ class ProductController extends Controller
         $product->precio = $request->input('precio');
         $product->save();   
 
-        return redirect()->route ('products.index',)
+        return redirect()->to(route('products.index', [], false))
             ->with('success', 'Product created successfully.');
     }
 
@@ -68,19 +68,21 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
         $request->validate([
-            'name' => 'required',
-            'descripcion' => 'required',
-            'precio' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'descripcion' => 'required|nullable|string',
+            'precio' => 'required|numeric|min:0',
         ]);
 
-        $product = Product::findOrFail($id);
-        $product->update($request->all());
-
-        return redirect()->to(route('products.index', [], false))
-            ->with('success', 'Product updated successfully.');
+        //$product->update($request->all());
+        $product->name = $request->input('name');
+        $product->descripcion = $request->input('descripcion');
+        $product->precio = $request->input('precio');
+        dd($product);
+        $product->save();
+        return redirect()->to(route('products.index', [], false)) ->with('success', 'Product updated successfully.');
     }
 
     /**

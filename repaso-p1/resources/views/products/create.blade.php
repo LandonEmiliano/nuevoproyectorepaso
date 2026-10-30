@@ -4,15 +4,7 @@
 @section('content')
 <div class="container ">
     <h1>Crear Producto</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+   
     <form method="POST" action="{{ route('products.store', [], false) }}" style="margin-top: 20px;">
         @csrf
         <div class="mb-3">
